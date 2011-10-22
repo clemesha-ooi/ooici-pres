@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<style type="text/css">
+  body { margin: 0; padding: 0 }
+  #container {
+    width:500px;
+    margin:0px auto;
+  }
+  #gmapcanvas { 
+    height:500px;
+    width:500px;
+    position:relative;
+    top:60px;
+  }
+</style>
+<script type="text/javascript"
+    src="http://maps.googleapis.com/maps/api/js?sensor=false">
+</script>
+<script type="text/javascript" src="keydragzoom.js"></script>
+<script type="text/javascript">
+  function init() {
+    var latlng = new google.maps.LatLng(32.5, -117.0);
+    var myOptions = {
+      zoom: 8,
+      center: latlng,
+      mapTypeId: google.maps.MapTypeId.ROADMAP
+    };
+    map = new google.maps.Map(document.getElementById("gmapcanvas"), myOptions);
+
+    map.enableKeyDragZoom();
+
+    google.maps.event.addListener(this.map, 'idle', function() {
+      var bounds = map.getBounds();
+      var northeast = bounds.getNorthEast();
+      var southwest = bounds.getSouthWest();
+      var northMax = northeast.lat(), southMax = southwest.lat();
+      var eastMax = northeast.lng(), westMax = southwest.lng();
+      console.log("N,S,E,W => ", northMax, southMax, eastMax, westMax);
+    });
+
+    /*
+    google.maps.event.addListener(map, "mousedown", function(event) {
+        console.log("mousedown");
+    });
+
+    google.maps.event.addListener(map, "dragend", function(event) {
+        console.log("dragend");
+    });
+
+    google.maps.event.addListener(map, "dragstart", function(event) {
+        console.log("dragstart");
+    });
+    */
+
+  }
+
+</script>
+</head>
+<body onload="init()">
+ <div id="container">
+    <div id="gmapcanvas"></div>
+ </div>
+</body>
+</html>
